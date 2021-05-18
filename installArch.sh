@@ -29,8 +29,10 @@ parted -s /dev/sda mkpart primary ext4 261Mib 5381MiB 1>/dev/null
 parted -s /dev/sda mkpart primary ext4 5381MiB 100% 1>/dev/null
 
 # file systems
-mkfs.fat -F 32 /dev/sda1 1>/dev/null # boot
+mkfs.fat -F 32 -n EFIBOOT /dev/sda1 1>/dev/null # boot
+
 mkfs.ext4 /dev/sda2 1>/dev/null # root
+
 mkfs.ext4 /dev/sda3 1>/dev/null # home
 
 # mount root
@@ -46,21 +48,23 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "[ PACTSRAP ]"
-pacstrap /mnt base base-devel vim networkmanager grub
+pacstrap /mnt base base-devel vim networkmanager grub efibootmgr dosfstools gptfdisk
+
 
 # fstsb
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# # entering installation
-# arch-chroot /mnt
+# entering installation
+arch-chroot /mnt << EOF
 
-# # enable networkmanager
-# systemctl enable NetworkManager
+# enable networkmanager
+systemctl enable NetworkManager
 
-# # setup grub
-# grub-install --target=i386-pc /dev/sda
-
-# echo "[ DONE ]"
+# setup grub
+bootctl install
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug
+EOF
+echo "[ DONE ]"
 
 
  
