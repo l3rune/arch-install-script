@@ -6,6 +6,7 @@ loadkeys de
 
 timedatectl set-ntp true
 
+echo "[ partitioning ]"
 
 # Remove any older partitions
 parted -s $HD rm 1 &> /dev/null
@@ -28,12 +29,16 @@ parted -s /dev/sda mkpart primary ext4 261Mib 5381MiB 1>/dev/null
 # home-partition
 parted -s /dev/sda mkpart primary ext4 5381MiB 100% 1>/dev/null
 
+echo "[ making filesystms ]"
+
 # file systems
 mkfs.fat -F 32 -n EFIBOOT /dev/sda1 1>/dev/null # boot
 
 mkfs.ext4 /dev/sda2 1>/dev/null # root
 
 mkfs.ext4 /dev/sda3 1>/dev/null # home
+
+echo "[ mouting ]"
 
 # mount root
 mount /dev/sda2 /mnt
@@ -48,11 +53,12 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "[ PACTSRAP ]"
-pacstrap /mnt base base-devel vim networkmanager grub efibootmgr dosfstools gptfdisk
+pacstrap /mnt base base-devel vim networkmanager grub efibootmgr dosfstools gptfdisk > /dev/null
 
-
-# fstsb
+# fstab
 genfstab -U /mnt >> /mnt/etc/fstab
+
+echo "[ entering installation ]"
 
 # entering installation
 arch-chroot /mnt << EOF
