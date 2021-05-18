@@ -9,6 +9,16 @@ lsblk
 
 timedatectl set-ntp true
 
+
+# Remove any older partitions
+parted -s $HD rm 1 &> /dev/null
+parted -s $HD rm 2 &> /dev/null
+parted -s $HD rm 3 &> /dev/null
+parted -s $HD rm 4 &> /dev/null
+
+# Set the partition table to MS-DOS type 
+parted -s /dev/sda mklabel gpt
+
 # boot-partition
 parted -s /dev/sda mkpart primary fat32 1Mib 260MiB
 parted -s /dev/sda set 1 boot on
