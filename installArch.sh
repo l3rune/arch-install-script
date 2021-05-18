@@ -52,7 +52,7 @@ pacstrap /mnt base base-devel vim nteworkmanager grub
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # entering installation
-arch-chroot /mnt
+arch-chroot /mnt << EOF
 
 # enable networkmanager
 systemctl enable NetworkManager
