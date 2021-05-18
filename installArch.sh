@@ -46,21 +46,21 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "[ PACTSRAP ]"
-pacstrap /mnt base base-devel vim nteworkmanager grub
+pacstrap /mnt base base-devel vim networkmanager grub
 
 # fstsb
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# entering installation
-arch-chroot /mnt << EOF
+# # entering installation
+# arch-chroot /mnt
 
-# enable networkmanager
-systemctl enable NetworkManager
+# # enable networkmanager
+# systemctl enable NetworkManager
 
-# setup grub
-grub-install --target=i386-pc /dev/sda
+# # setup grub
+# grub-install --target=i386-pc /dev/sda
 
-echo "[ DONE ]"
+# echo "[ DONE ]"
 
 
  
