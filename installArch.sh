@@ -15,8 +15,6 @@ ROOT_SIZE=5120MiB
 
 ##############################################
 
-loadkeys de
-
 timedatectl set-ntp true
 
 echo "> partitioning"
