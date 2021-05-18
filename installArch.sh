@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-# curl -sL https://bit.ly/3uWggpc | bash > insatll.sh
-# chmod +x install.sh
-# ./install.sh
+# curl -sL https://bit.ly/3uWggpc | bash
 
 loadkeys de
-lsblk
 
 timedatectl set-ntp true
 
@@ -21,7 +18,9 @@ parted -s /dev/sda mklabel gpt
 
 # boot-partition
 parted -s /dev/sda mkpart primary fat32 1Mib 260MiB
+parted -s /dev/sda set 1 esp on
 parted -s /dev/sda set 1 boot on
+
 
 # root-partition
 parted -s /dev/sda mkpart primary ext4 261Mib 5381MiB
@@ -45,7 +44,22 @@ mount /dev/sda3 /mnt/home
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
+# pacstrap
+pacstrap /mnt base base-devel vim nteworkmanager grub
 
+# fstsb
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# entering installation
+arch-chroot /mnt
+
+# enable networkmanager
+systemctl enable NetworkManager
+
+# setup grub
+grub-install --target=i386-pc /dev/sda
+
+echo "[ DONE ]"
 
 
  
