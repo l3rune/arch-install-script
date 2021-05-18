@@ -2,6 +2,19 @@
 
 # curl -sL https://bit.ly/3uWggpc | bash
 
+#############################################
+# config
+
+ROOT_PASSWD=1234
+HOSTN=arch
+KEYBOARD_LAYOUT=de
+LANGUAGE=de_DE
+LOCALE=Europe/Berlin
+BOOT_SIZE=260MiB
+ROOT_SIZE=5120MiB
+
+##############################################
+
 loadkeys de
 
 timedatectl set-ntp true
@@ -18,13 +31,13 @@ parted -s >HD rm 4 &> /dev/null
 parted -s /dev/sda mklabel gpt
 
 # boot-partition
-parted -s /dev/sda mkpart primary fat32 1Mib 260MiB 1>/dev/null
+parted -s /dev/sda mkpart primary fat32 1Mib $BOOT_SIZE 1>/dev/null
 parted -s /dev/sda set 1 esp on 1>/dev/null
 parted -s /dev/sda set 1 boot on 1>/dev/null
 
 
 # root-partition
-parted -s /dev/sda mkpart primary ext4 261Mib 5381MiB 1>/dev/null
+parted -s /dev/sda mkpart primary ext4 261MiB 5381MiB 1>/dev/null
 
 # home-partition
 parted -s /dev/sda mkpart primary ext4 5381MiB 100% 1>/dev/null
@@ -67,10 +80,47 @@ arch-chroot /mnt << EOF
 systemctl enable NetworkManager > /dev/null
 
 # setup grub
-bootctl install > /dev/null
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug > /dev/null
+bootctl install
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# root password
+echo -e $ROOT_PASSWD"\n"$ROOT_PASSWD | passwd
+
+# Sets hostname
+echo $HOSTN > /etc/hostname
+cp /etc/hosts /etc/hosts.bkp
+sed 's/localhost$/localhost '$HOSTN'/' /etc/hosts > /tmp/hosts
+mv /tmp/hosts /etc/hosts
+
+# Configures the keyboard layout
+echo 'KEYMAP='$KEYBOARD_LAYOUT > /etc/vconsole.conf
+echo 'FONT=lat0-16' >> /etc/vconsole.conf
+echo 'FONT_MAP=' >> /etc/vconsole.conf
+
+# Setup locale.gen
+cp /etc/locale.gen /etc/locale.gen.bkp
+sed 's/^#'$LANGUAGE'/'$LANGUAGE/ /etc/locale.gen > /tmp/locale
+mv /tmp/locale /etc/locale.gen
+locale-gen
+
+# Setup locale.conf
+export LANG=$LANGUAGE'.utf-8'
+echo 'LANG='$LANGUAGE'.utf-8' > /etc/locale.conf
+echo 'LC_COLLATE=C' >> /etc/locale.conf
+echo 'LC_TIME='$LANGUAGE'.utf-8' >> /etc/locale.conf
+
+# Setup clock (date and time)
+ln -s /usr/share/zoneinfo/$LOCALE /etc/localtime
+echo $LOCALE > /etc/timezone
+hwclock --systohc --utc
+
 EOF
-echo "> DONE"
+
+
+echo "> unmounting"
+umount -R /mnt
+reboot
 
 
  
