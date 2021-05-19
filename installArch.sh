@@ -34,7 +34,6 @@ parted -s /dev/sda mklabel gpt
 parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE+1))MiB
 parted -s /dev/sda set 1 esp on 1>/dev/null
 
-
 # root-partition
 parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE+1))MiB $(($BOOT_SIZE+1+$ROOT_SIZE))MiB
 
