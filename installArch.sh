@@ -16,7 +16,7 @@ ROOT_SIZE=5*1024
 
 ##############################################
 
-loadkeys de
+loadkeys $KEYBOARD_LAYOUT
 timedatectl set-ntp true
 
 echo "> partitioning"
