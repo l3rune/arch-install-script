@@ -19,6 +19,19 @@ ROOT_SIZE=5*1024
 loadkeys $KEYBOARD_LAYOUT
 timedatectl set-ntp true
 
+echo "> enter BOOT_SIZE"
+read BOOT_SIZE
+
+echo "> enter ROOT_SIZE"
+read ROOT_SIZE
+
+echo "> enter ROOT_PASSWD"
+read ROOT_PASSWD
+
+echo "> enter HOSTN"
+read HOSTN
+
+
 echo "> partitioning"
 
 # Remove any older partitions
