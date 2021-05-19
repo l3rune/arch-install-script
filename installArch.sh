@@ -12,7 +12,7 @@ LANGUAGE=de_DE
 LOCALE=Europe/Berlin
 # in MB
 BOOT_SIZE=260
-ROOT_SIZE=5*1024
+ROOT_SIZE=10*1024
 
 ##############################################
 
