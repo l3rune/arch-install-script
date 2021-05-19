@@ -24,10 +24,10 @@ timedatectl set-ntp true
 echo "> partitioning"
 
 # Remove any older partitions
-parted -s /dev/sda rm 1
-parted -s /dev/sda rm 2 
-parted -s /dev/sda rm 3 
-parted -s /dev/sda rm 4
+#parted -s /dev/sda rm 1
+#parted -s /dev/sda rm 2 
+#parted -s /dev/sda rm 3 
+#parted -s /dev/sda rm 4
 
 # Set the partition table to gpt type 
 parted -s /dev/sda mklabel gpt
