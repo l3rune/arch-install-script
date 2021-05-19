@@ -12,7 +12,7 @@ LANGUAGE=en_US
 LOCALE=Europe/Berlin
 # in MB
 BOOT_SIZE=260
-ROOT_SIZE=10*1024
+ROOT_SIZE=25*1024
 USERN=l3rune
 
 ##############################################
