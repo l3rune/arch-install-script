@@ -22,24 +22,24 @@ timedatectl set-ntp true
 echo "> partitioning"
 
 # Remove any older partitions
-parted -s >HD rm 1 &> /dev/null
-parted -s >HD rm 2 &> /dev/null
-parted -s >HD rm 3 &> /dev/null
-parted -s >HD rm 4 &> /dev/null
+parted -s /dev/sda rm 1 &> /dev/null
+parted -s /dev/sda rm 2 &> /dev/null
+parted -s /dev/sdarm 3 &> /dev/null
+parted -s /dev/sdarm 4 &> /dev/null
 
 # Set the partition table to gpt type 
 parted -s /dev/sda mklabel gpt
 
 # boot-partition
-parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE*1024+1)) 1>/dev/null
+parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE*1024+1))MiB
 parted -s /dev/sda set 1 esp on 1>/dev/null
 
 
 # root-partition
-parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1)) $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024)) 1>/dev/null
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1))MiB $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024))MiB
 
 # home-partition
-parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024)) 100% 1>/dev/null
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024))MiB 100% 
 
 echo "> making filesystems"
 
