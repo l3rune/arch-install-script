@@ -15,6 +15,7 @@ ROOT_SIZE=5
 
 ##############################################
 
+loadkeys de
 timedatectl set-ntp true
 
 echo "> partitioning"
