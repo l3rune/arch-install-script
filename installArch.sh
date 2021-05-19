@@ -65,7 +65,7 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "> PACTSRAP"
-pacstrap /mnt base base-devel linux linux-firmware sudo vim networkmanager grub efibootmgr dosfstools gptfdisk &> /dev/null
+pacstrap /mnt base base-devel linux linux-firmware sudo vim networkmanager grub efibootmgr dosfstools gptfdisk
 
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
