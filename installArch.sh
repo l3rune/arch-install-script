@@ -122,6 +122,11 @@ useradd -m -g wheel $USERN
 #all sudo for wheel group
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
+#install things
+pacman -S xf86-video-amdgpu xorg xorg-server xorg-xinit
+
+
+
 EOF
 
 
