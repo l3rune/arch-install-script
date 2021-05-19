@@ -10,8 +10,8 @@ HOSTN=arch
 KEYBOARD_LAYOUT=de
 LANGUAGE=de_DE
 LOCALE=Europe/Berlin
-BOOT_SIZE=260MiB
-ROOT_SIZE=5120MiB
+BOOT_SIZE=0.26
+ROOT_SIZE=5
 
 ##############################################
 
@@ -25,20 +25,19 @@ parted -s >HD rm 2 &> /dev/null
 parted -s >HD rm 3 &> /dev/null
 parted -s >HD rm 4 &> /dev/null
 
-# Set the partition table to MS-DOS type 
+# Set the partition table to gpt type 
 parted -s /dev/sda mklabel gpt
 
 # boot-partition
-parted -s /dev/sda mkpart primary fat32 1Mib $BOOT_SIZE 1>/dev/null
+parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE*1024+1)) 1>/dev/null
 parted -s /dev/sda set 1 esp on 1>/dev/null
-parted -s /dev/sda set 1 boot on 1>/dev/null
 
 
 # root-partition
-parted -s /dev/sda mkpart primary ext4 261MiB 5381MiB 1>/dev/null
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1)) $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024)) 1>/dev/null
 
 # home-partition
-parted -s /dev/sda mkpart primary ext4 5381MiB 100% 1>/dev/null
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024)) 100% 1>/dev/null
 
 echo "> making filesystems"
 
@@ -64,7 +63,7 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "> PACTSRAP"
-pacstrap /mnt base base-devel vim networkmanager grub efibootmgr dosfstools gptfdisk
+pacstrap /mnt base base-devel linux linux-firmware vim networkmanager grub efibootmgr dosfstools gptfdisk
 
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -80,6 +79,8 @@ systemctl enable NetworkManager > /dev/null
 # setup grub
 bootctl install
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug
+mkdir -p /boot/grub/locale
+cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # root password
