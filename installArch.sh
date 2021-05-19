@@ -45,11 +45,11 @@ parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE+1+$ROOT_SIZE))MiB 100%
 echo "> making filesystems"
 
 # file systems
-mkfs.fat -F 32 -n EFIBOOT /dev/sda1 1>/dev/null # boot
+mkfs.fat -F 32 -n EFIBOOT /dev/sda1 # boot
 
-mkfs.ext4 /dev/sda2 1>/dev/null # root
+mkfs.ext4 /dev/sda2 # root
 
-mkfs.ext4 /dev/sda3 1>/dev/null # home
+mkfs.ext4 /dev/sda3 # home
 
 echo "> mounting"
 
