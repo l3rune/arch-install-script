@@ -121,6 +121,8 @@ hwclock --systohc --utc
 useradd -m -g wheel $USERN
 passwd $USERN $PW
 
+#all sudo for wheel group
+echo "%wheel ALL(ALL) ALL" > /etc/sudoers
 
 EOF
 
