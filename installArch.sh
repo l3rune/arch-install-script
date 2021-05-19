@@ -10,9 +10,9 @@ HOSTN=arch
 KEYBOARD_LAYOUT=de
 LANGUAGE=de_DE
 LOCALE=Europe/Berlin
-# in GB
-BOOT_SIZE=0.26
-ROOT_SIZE=5
+# in MB
+BOOT_SIZE=260
+ROOT_SIZE=5*1024
 
 ##############################################
 
@@ -31,15 +31,15 @@ parted -s /dev/sdarm 4 &> /dev/null
 parted -s /dev/sda mklabel gpt
 
 # boot-partition
-parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE*1024+1))MiB
+parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE+1))MiB
 parted -s /dev/sda set 1 esp on 1>/dev/null
 
 
 # root-partition
-parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1))MiB $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024))MiB
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE+1))MiB $(($BOOT_SIZE+1+$ROOT_SIZE))MiB
 
 # home-partition
-parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE*1024+1+$ROOT_SIZE*1024))MiB 100% 
+parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE+1+$ROOT_SIZE))MiB 100% 
 
 echo "> making filesystems"
 
