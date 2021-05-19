@@ -8,11 +8,12 @@
 ROOT_PASSWD=1234
 HOSTN=arch
 KEYBOARD_LAYOUT=de
-LANGUAGE=de_DE
+LANGUAGE=en_US
 LOCALE=Europe/Berlin
 # in MB
 BOOT_SIZE=260
 ROOT_SIZE=10*1024
+USERN=l3rune
 
 ##############################################
 
@@ -64,7 +65,7 @@ mount /dev/sda1 /mnt/boot
 
 # pacstrap
 echo "> PACTSRAP"
-pacstrap /mnt base base-devel linux linux-firmware vim networkmanager grub efibootmgr dosfstools gptfdisk
+pacstrap /mnt base base-devel linux linux-firmware sudo vim networkmanager grub efibootmgr dosfstools gptfdisk
 
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -114,6 +115,12 @@ echo 'LC_TIME='$LANGUAGE'.utf-8' >> /etc/locale.conf
 ln -s /usr/share/zoneinfo/$LOCALE /etc/localtime
 echo $LOCALE > /etc/timezone
 hwclock --systohc --utc
+
+#add user
+useradd -m -g wheel $USERN
+read PW
+passwd $USERN $PW
+
 
 EOF
 
