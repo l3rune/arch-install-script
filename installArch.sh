@@ -10,6 +10,7 @@ HOSTN=arch
 KEYBOARD_LAYOUT=de
 LANGUAGE=de_DE
 LOCALE=Europe/Berlin
+# in GB
 BOOT_SIZE=0.26
 ROOT_SIZE=5
 
@@ -65,7 +66,7 @@ mount /dev/sda1 /mnt/boot
 # pacstrap
 echo "> PACTSRAP"
 pacstrap /mnt base base-devel linux linux-firmware vim networkmanager grub efibootmgr dosfstools gptfdisk
-
+sleep(30)
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
