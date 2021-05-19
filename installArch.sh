@@ -22,17 +22,17 @@ timedatectl set-ntp true
 echo "> partitioning"
 
 # Remove any older partitions
-parted -s /dev/sda rm 1 &> /dev/null
-parted -s /dev/sda rm 2 &> /dev/null
-parted -s /dev/sdarm 3 &> /dev/null
-parted -s /dev/sdarm 4 &> /dev/null
+parted -s /dev/sda rm 1
+parted -s /dev/sda rm 2 
+parted -s /dev/sdarm 3 
+parted -s /dev/sdarm 4
 
 # Set the partition table to gpt type 
 parted -s /dev/sda mklabel gpt
 
 # boot-partition
 parted -s /dev/sda mkpart primary fat32 1 $(($BOOT_SIZE+1))MiB
-parted -s /dev/sda set 1 esp on 1>/dev/null
+parted -s /dev/sda set 1 esp on
 
 # root-partition
 parted -s /dev/sda mkpart primary ext4 $(($BOOT_SIZE+1))MiB $(($BOOT_SIZE+1+$ROOT_SIZE))MiB
