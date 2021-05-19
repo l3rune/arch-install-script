@@ -14,7 +14,6 @@ LOCALE=Europe/Berlin
 BOOT_SIZE=260
 ROOT_SIZE=10*1024
 USERN=l3rune
-PW=1234
 
 ##############################################
 
@@ -119,10 +118,9 @@ hwclock --systohc --utc
 
 #add user
 useradd -m -g wheel $USERN
-passwd $USERN $PW
 
 #all sudo for wheel group
-echo "%wheel ALL(ALL) ALL" >> /etc/sudoers
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 EOF
 
