@@ -134,5 +134,22 @@ echo "> unmounting"
 umount -R /mnt
 reboot
 
+# install vbox-guest-utils
+# sudo pacman -S virtualbox-guest-utils
+# modprobe -a vboxguest vboxsf vboxvideo
+# VBoxClient-all
+# systemctl enable vboxservice
 
- 
+# set resolution
+# xrandr --newmode "1920x1080" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync
+# xrandr --addmode Virtual1 "1920x1080"
+# xrandr --output Virtual1 --mode "1920x1080"
+
+# custom shell prompt (.bashrc)
+# If not running interactively, don't do anything
+# [[ $- != *i* ]] && return
+# alias ls='ls --color=auto'
+# prompt
+# GEEN="\[$(tput setaf 2)\]"
+# RESET="\[$(tput sgr0)\]"
+# PS1="\[\033[1;31m\][ \[\033[0m\]\W \[\033[1;31m\]] \[\033[1;32m\]$ ${RESET}"
