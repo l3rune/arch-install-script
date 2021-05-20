@@ -125,10 +125,7 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 #install things
 pacman -S xf86-video-amdgpu xorg xorg-server xorg-xinit
 
-
-
 EOF
-
 
 echo "> unmounting"
 umount -R /mnt
