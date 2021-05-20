@@ -175,3 +175,18 @@ reboot
 # cursor: add to .xinitrc (before picom) xsetroot -cursor_name left_ptr 
 # download wallpaper; set with nitrogen; add nitrogen --restire & to .xinitrc(after set_res.sh)
 # customize terminal
+# polybar
+# install yay cd /opt; sudo git clone https://aur.archlinux.org/yay.git;
+# sudo chown -R  l3rune:wheel yay
+# cd yay; makepkg -si
+# yay -S polybar pacman-contib siji-git pulseaudio alsa-utils (ttf-font-qwesome)
+# mkdir .config/polybar
+# create .config/polybar/config; https://gitlab.com/eflinux/polybar/-/blob/master/.config
+# remove spotify Temprature battery wlan line 64
+# copy launchscript from https://github.com/polybar/polybar/wiki
+# create .config/polybar/launch.sh; remove second bar; replac bar1 with "example"
+# chmod +x .config/polybar/launch.sh
+# add $HOME/.config/polybar/launch.sh to .config/bspwm/bspwmrc
+# add voulume control in sxhkdrc from https://gitlab.com/eflinux/bspwm/-/blob/master/.sxhkdrc
+# yay -S betterlockscreen (install no dependencies)
+# yay -S xdpyinfo bc feh
