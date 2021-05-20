@@ -131,10 +131,10 @@ echo "> unmounting"
 umount -R /mnt
 reboot
 
-# install vbox-guest-utils
+# install virtualbox-guest-utils
 # sudo pacman -S virtualbox-guest-utils
-# modprobe -a vboxguest vboxsf vboxvideo
-# VBoxClient-all
+# sudo modprobe -a vboxguest vboxsf vboxvideo
+# sudo VBoxClient-all # also add to .xinitrc
 # systemctl enable vboxservice
 
 # set resolution
@@ -151,3 +151,27 @@ reboot
 # RESET="\[$(tput sgr0)\]"
 # PS1="\[\033[1;31m\][ \[\033[0m\]\W \[\033[1;31m\]] \[\033[1;32m\]$ ${RESET}"
 
+# INSTALL BSPWM
+# packages: [xorg] bspwm; sxhkd demenu nitrogen picom xfce-terminal chromium arandr
+#
+# mkdir .config
+# mkdir .config/bspwm
+# mkdir .config/sxhkd
+# cp /usr/share/doc/bspwm/examples/bspwmrc .config/bspwm
+# cp /usr/share/doc/bspwm/examples/sxhkdrc .config/sxhkd
+# change terminal in sxhkdrc form urxvt to xfce4-terminal
+# cp /etc/X11/xinitrc .xinitrc
+# delete last lines in .xinitrc /up to for loop, "fi" is the last thing), enter:
+# setxkbmap de &
+# picom -f & # -f for fade effect
+# exec bspwm
+# for vm:
+# edit /etc/xdg/picom.conf
+# set vsync=false
+# set resolution in arandr (addmode with xrandr)
+# hit save icon
+# chmod +x .screenlayout/set_res.sh
+# add to .xinitrc (before picom); add xrandr --newmode and xrandr --addmor to set_res.sh
+# cursor: add to .xinitrc (before picom) xsetroot -cursor_name left_ptr 
+# download wallpaper; set with nitrogen; add nitrogen --restire & to .xinitrc(after set_res.sh)
+# customize terminal
